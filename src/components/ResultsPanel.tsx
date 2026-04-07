@@ -333,6 +333,7 @@ export default function ResultsPanel({ result, input, presets, onSave }: Props) 
                   <label className="form-label">Preset para comparação</label>
                   <select
                     className="form-select"
+                    data-native-cursor
                     value={comparePresetId ?? ''}
                     onChange={(e) => setComparePresetId(e.target.value || null)}
                   >

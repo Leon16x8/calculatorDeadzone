@@ -108,8 +108,97 @@ export default function TargetCursor({
     window.addEventListener('mousedown', onDown);
     window.addEventListener('mouseup', onUp);
 
+    // ── Native select suspension session ───────────
+    //
+    // Native <select> dropdowns are rendered by the OS outside the DOM.
+    // Deterministic session model with explicit open/close tracking.
+    //
+    // dropdownOpen tracks whether the native dropdown is currently shown.
+    // A second mousedown on the same select means the user is closing it.
+    const nativeSelector = 'select, [data-native-cursor]';
+    let sessionActive = false;
+    let sessionEl: HTMLElement | null = null;
+    let dropdownOpen = false;
+
+    const startSession = (el: HTMLElement) => {
+      const target = el.closest?.(nativeSelector) as HTMLElement | null;
+      if (!target) return;
+      sessionActive = true;
+      sessionEl = target;
+      dropdownOpen = true;
+      if (cursorRef.current) gsap.set(cursorRef.current, { display: 'none' });
+      sessionEl.style.setProperty('cursor', 'default', 'important');
+    };
+
+    // Idempotent — safe to call from multiple racing events
+    const endSession = () => {
+      if (!sessionActive) return;
+      sessionActive = false;
+      dropdownOpen = false;
+      if (sessionEl) {
+        sessionEl.style.removeProperty('cursor');
+        sessionEl.blur();
+        sessionEl = null;
+      }
+      if (cursorRef.current) gsap.set(cursorRef.current, { display: '' });
+    };
+
+    // ── Start/toggle signal ──
+    const onNativeDown = (e: Event) => {
+      const el = e.target as HTMLElement;
+      const clickedNative = el?.closest?.(nativeSelector) as HTMLElement | null;
+
+      if (clickedNative) {
+        if (sessionActive && clickedNative === sessionEl) {
+          // Second click on the same select — user is closing the dropdown
+          endSession();
+        } else {
+          startSession(el);
+        }
+      } else if (sessionActive) {
+        // Click outside the suspended select — dropdown closed
+        endSession();
+      }
+    };
+    // focusin: covers Tab-into-select (keyboard navigation)
+    const onFocusIn = (e: FocusEvent) => {
+      const el = e.target as HTMLElement;
+      if (!sessionActive && el?.closest?.(nativeSelector)) startSession(el);
+    };
+
+    // ── End signals ──
+    // change: user picked an option (select keeps focus, no focusout)
+    const onNativeChange = (e: Event) => {
+      if (sessionActive && (e.target as HTMLElement)?.closest?.(nativeSelector)) {
+        endSession();
+      }
+    };
+    // focusout: focus moved to another element (e.g. Tab away)
+    const onFocusOut = (e: FocusEvent) => {
+      if (sessionActive && (e.target as HTMLElement)?.closest?.(nativeSelector)) {
+        endSession();
+      }
+    };
+    // Keyboard: Escape/Enter/Tab close the dropdown without change event
+    const onNativeKey = (e: Event) => {
+      const key = (e as KeyboardEvent).key;
+      if (sessionActive && (key === 'Escape' || key === 'Enter' || key === 'Tab')) {
+        endSession();
+      }
+    };
+
+    // Capture phase for mousedown so we see it before any other handler
+    document.addEventListener('mousedown', onNativeDown, true);
+    document.addEventListener('focusin', onFocusIn);
+    document.addEventListener('focusout', onFocusOut);
+    document.addEventListener('change', onNativeChange);
+    document.addEventListener('keydown', onNativeKey);
+
     const onEnter = (e: Event) => {
-      const target = (e.target as HTMLElement).closest?.(targetSelector) as HTMLElement | null;
+      if (sessionActive) return;
+      const el = e.target as HTMLElement;
+      if (el.closest?.(nativeSelector)) return;
+      const target = el.closest?.(targetSelector) as HTMLElement | null;
       if (!target || !cursorRef.current || !cornersRef.current) return;
       if (activeTarget === target) return;
 
@@ -177,6 +266,12 @@ export default function TargetCursor({
       window.removeEventListener('mousedown', onDown);
       window.removeEventListener('mouseup', onUp);
       if (activeTarget && leaveHandler) activeTarget.removeEventListener('mouseleave', leaveHandler);
+      document.removeEventListener('mousedown', onNativeDown, true);
+      document.removeEventListener('focusin', onFocusIn);
+      document.removeEventListener('focusout', onFocusOut);
+      document.removeEventListener('change', onNativeChange);
+      document.removeEventListener('keydown', onNativeKey);
+      if (sessionActive) endSession();
       observer.disconnect();
       spinTl.current?.kill();
       document.body.style.cursor = originalCursor;

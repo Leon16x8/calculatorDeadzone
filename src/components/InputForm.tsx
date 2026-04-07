@@ -116,6 +116,7 @@ export default function InputForm({ input, onChange, onCalculate, onReset }: Pro
         <label className="form-label">Plataforma / Controle</label>
         <select
           className="form-select"
+          data-native-cursor
           value={input.platform}
           onChange={(e) => update('platform', e.target.value as ControllerPlatform)}
         >
