@@ -1,6 +1,27 @@
+# Dependencies
 node_modules/
+
+# Build output
 dist/
 dist-electron/
+
+# Installer / packaged app
 release/
+*.exe
+*.msi
+*.dmg
+*.AppImage
+*.blockmap
+*.snap
+
+# Environment
 .env
+.env.*
+
+# Logs
 *.log
+npm-debug.log*
+
+# OS
+.DS_Store
+Thumbs.db
