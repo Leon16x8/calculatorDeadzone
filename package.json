@@ -1,0 +1,51 @@
+{
+  "name": "warzone-deadzone-calculator",
+  "version": "1.0.0",
+  "description": "Desktop app for calculating optimal deadzone settings for Call of Duty: Warzone",
+  "main": "dist-electron/main.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "electron:dev": "vite",
+    "electron:build": "vite build && electron-builder"
+  },
+  "dependencies": {
+    "@react-three/fiber": "^8.18.0",
+    "gsap": "^3.14.2",
+    "motion": "^12.38.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "three": "^0.183.2"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@types/three": "^0.183.1",
+    "@vitejs/plugin-react": "^4.3.4",
+    "concurrently": "^9.1.0",
+    "electron": "^33.2.0",
+    "electron-builder": "^25.1.8",
+    "typescript": "^5.6.3",
+    "vite": "^6.0.3",
+    "vite-plugin-electron": "^0.29.1",
+    "wait-on": "^8.0.1"
+  },
+  "build": {
+    "appId": "com.warzone.deadzone-calculator",
+    "productName": "Warzone Deadzone Calculator",
+    "directories": {
+      "output": "release"
+    },
+    "win": {
+      "target": "nsis",
+      "icon": "build/icon.ico"
+    },
+    "mac": {
+      "target": "dmg"
+    },
+    "linux": {
+      "target": "AppImage"
+    }
+  }
+}

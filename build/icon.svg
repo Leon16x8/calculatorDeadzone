@@ -1,0 +1,163 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0d0d14"/>
+      <stop offset="100%" style="stop-color:#12121f"/>
+    </linearGradient>
+    <linearGradient id="gunBody" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#0f9b58"/>
+      <stop offset="30%" style="stop-color:#0aff8a"/>
+      <stop offset="50%" style="stop-color:#06d66a"/>
+      <stop offset="70%" style="stop-color:#0aff8a"/>
+      <stop offset="100%" style="stop-color:#0f9b58"/>
+    </linearGradient>
+    <linearGradient id="gunDark" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#085a34"/>
+      <stop offset="50%" style="stop-color:#0bc96a"/>
+      <stop offset="100%" style="stop-color:#074a2b"/>
+    </linearGradient>
+    <linearGradient id="gunHighlight" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:#0aff8a;stop-opacity:0.6"/>
+      <stop offset="100%" style="stop-color:#06d66a;stop-opacity:0.1"/>
+    </linearGradient>
+    <linearGradient id="dpadRing" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#ff3b3b"/>
+      <stop offset="50%" style="stop-color:#e63232"/>
+      <stop offset="100%" style="stop-color:#cc2a2a"/>
+    </linearGradient>
+    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
+      <feDropShadow dx="0" dy="3" stdDeviation="6" flood-color="#000" flood-opacity="0.5"/>
+    </filter>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="4" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+    <filter id="greenGlow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="3" result="blur"/>
+      <feFlood flood-color="#0aff8a" flood-opacity="0.3" result="color"/>
+      <feComposite in="color" in2="blur" operator="in" result="colorBlur"/>
+      <feMerge>
+        <feMergeNode in="colorBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Background circle -->
+  <circle cx="256" cy="256" r="245" fill="url(#bg)"/>
+  <circle cx="256" cy="256" r="245" fill="none" stroke="#1a1a2e" stroke-width="4"/>
+
+  <!-- D-Pad: circular style with red ring -->
+  <g transform="translate(200, 310)" filter="url(#shadow)">
+    <!-- Outer red ring -->
+    <circle cx="0" cy="0" r="82" fill="none" stroke="url(#dpadRing)" stroke-width="12"/>
+    <!-- Inner dark circle -->
+    <circle cx="0" cy="0" r="70" fill="#1a1a24"/>
+    <!-- Inner subtle ring -->
+    <circle cx="0" cy="0" r="68" fill="none" stroke="#2a2a3a" stroke-width="1.5"/>
+    <!-- Center darker area -->
+    <circle cx="0" cy="0" r="45" fill="#141420"/>
+    <circle cx="0" cy="0" r="44" fill="none" stroke="#2a2a3a" stroke-width="1"/>
+    <!-- Cross lines (subtle directional guides) -->
+    <line x1="0" y1="-65" x2="0" y2="-48" stroke="#444" stroke-width="2" stroke-linecap="round"/>
+    <line x1="0" y1="48" x2="0" y2="65" stroke="#444" stroke-width="2" stroke-linecap="round"/>
+    <line x1="-65" y1="0" x2="-48" y2="0" stroke="#444" stroke-width="2" stroke-linecap="round"/>
+    <line x1="48" y1="0" x2="65" y2="0" stroke="#444" stroke-width="2" stroke-linecap="round"/>
+    <!-- Small directional triangles -->
+    <polygon points="0,-60 -6,-50 6,-50" fill="#666" opacity="0.7"/>
+    <polygon points="0,60 -6,50 6,50" fill="#666" opacity="0.7"/>
+    <polygon points="-60,0 -50,-6 -50,6" fill="#666" opacity="0.7"/>
+    <polygon points="60,0 50,-6 50,6" fill="#666" opacity="0.7"/>
+    <!-- Center dot -->
+    <circle cx="0" cy="0" r="6" fill="#333"/>
+    <circle cx="0" cy="0" r="4" fill="#e63232" opacity="0.5"/>
+  </g>
+
+  <!-- SMG Weapon (green emerald style, positioned top-right, angled) -->
+  <g transform="translate(310, 195) rotate(-25)" filter="url(#greenGlow)">
+    <!-- Main body / receiver -->
+    <rect x="-18" y="-12" width="90" height="28" rx="4" fill="url(#gunBody)" stroke="#085a34" stroke-width="1"/>
+    <!-- Crystal/marble pattern lines on body -->
+    <path d="M -10,-8 Q 10,-2 30,-10 Q 50,0 70,-6" fill="none" stroke="#0aff8a" stroke-width="0.8" opacity="0.5"/>
+    <path d="M -10,4 Q 15,12 40,2 Q 55,8 72,4" fill="none" stroke="#0aff8a" stroke-width="0.6" opacity="0.4"/>
+    <path d="M 0,10 Q 20,6 45,12 Q 60,8 72,12" fill="none" stroke="#06d66a" stroke-width="0.5" opacity="0.3"/>
+
+    <!-- Barrel -->
+    <rect x="72" y="-6" width="55" height="16" rx="3" fill="url(#gunDark)" stroke="#085a34" stroke-width="0.8"/>
+    <!-- Barrel detail lines -->
+    <path d="M 78,-2 Q 90,4 105,-2" fill="none" stroke="#0aff8a" stroke-width="0.6" opacity="0.4"/>
+    <!-- Muzzle -->
+    <rect x="125" y="-8" width="16" height="20" rx="2" fill="#074a2b" stroke="#085a34" stroke-width="0.8"/>
+    <rect x="139" y="-5" width="5" height="14" rx="1" fill="#063d24"/>
+    <!-- Muzzle holes -->
+    <circle cx="131" cy="-2" r="1.5" fill="#042a18"/>
+    <circle cx="131" cy="6" r="1.5" fill="#042a18"/>
+    <circle cx="136" cy="2" r="1.5" fill="#042a18"/>
+
+    <!-- Top rail -->
+    <rect x="-5" y="-16" width="70" height="5" rx="1.5" fill="#085a34"/>
+    <!-- Rail notches -->
+    <line x1="5" y1="-16" x2="5" y2="-11" stroke="#063d24" stroke-width="1"/>
+    <line x1="15" y1="-16" x2="15" y2="-11" stroke="#063d24" stroke-width="1"/>
+    <line x1="25" y1="-16" x2="25" y2="-11" stroke="#063d24" stroke-width="1"/>
+    <line x1="35" y1="-16" x2="35" y2="-11" stroke="#063d24" stroke-width="1"/>
+    <line x1="45" y1="-16" x2="45" y2="-11" stroke="#063d24" stroke-width="1"/>
+    <line x1="55" y1="-16" x2="55" y2="-11" stroke="#063d24" stroke-width="1"/>
+
+    <!-- Red dot sight -->
+    <rect x="20" y="-28" width="24" height="13" rx="3" fill="#1a1a1a" stroke="#333" stroke-width="1"/>
+    <rect x="22" y="-26" width="20" height="9" rx="2" fill="#111"/>
+    <!-- Red dot -->
+    <circle cx="32" cy="-21" r="2" fill="#ff2222" opacity="0.9"/>
+    <!-- Sight mount -->
+    <rect x="26" y="-16" width="4" height="2" fill="#333"/>
+    <rect x="36" y="-16" width="4" height="2" fill="#333"/>
+
+    <!-- Magazine -->
+    <rect x="15" y="16" width="22" height="38" rx="3" fill="url(#gunBody)" stroke="#085a34" stroke-width="0.8"/>
+    <!-- Mag pattern -->
+    <path d="M 18,20 Q 26,28 34,22" fill="none" stroke="#0aff8a" stroke-width="0.5" opacity="0.4"/>
+    <path d="M 18,32 Q 26,38 34,30" fill="none" stroke="#0aff8a" stroke-width="0.5" opacity="0.3"/>
+    <!-- Mag base -->
+    <rect x="14" y="50" width="24" height="5" rx="2" fill="#074a2b"/>
+
+    <!-- Trigger guard -->
+    <path d="M 42,16 Q 42,32 32,32 Q 25,32 25,22" fill="none" stroke="#085a34" stroke-width="2.5" stroke-linecap="round"/>
+    <!-- Trigger -->
+    <line x1="35" y1="18" x2="33" y2="26" stroke="#333" stroke-width="2" stroke-linecap="round"/>
+
+    <!-- Grip -->
+    <rect x="-16" y="16" width="20" height="36" rx="4" fill="url(#gunBody)" stroke="#085a34" stroke-width="0.8" transform="rotate(10, -6, 16)"/>
+    <!-- Grip texture -->
+    <line x1="-12" y1="22" x2="-2" y2="22" stroke="#085a34" stroke-width="0.8" opacity="0.5" transform="rotate(10, -6, 16)"/>
+    <line x1="-12" y1="28" x2="-2" y2="28" stroke="#085a34" stroke-width="0.8" opacity="0.5" transform="rotate(10, -6, 16)"/>
+    <line x1="-12" y1="34" x2="-2" y2="34" stroke="#085a34" stroke-width="0.8" opacity="0.5" transform="rotate(10, -6, 16)"/>
+    <line x1="-12" y1="40" x2="-2" y2="40" stroke="#085a34" stroke-width="0.8" opacity="0.5" transform="rotate(10, -6, 16)"/>
+
+    <!-- Stock -->
+    <rect x="-42" y="-10" width="26" height="24" rx="3" fill="url(#gunBody)" stroke="#085a34" stroke-width="0.8"/>
+    <!-- Stock end plate -->
+    <rect x="-46" y="-8" width="6" height="20" rx="2" fill="#074a2b"/>
+    <!-- Stock pattern -->
+    <path d="M -38,-6 Q -30,0 -22,-6" fill="none" stroke="#0aff8a" stroke-width="0.5" opacity="0.4"/>
+    <path d="M -38,6 Q -30,10 -22,4" fill="none" stroke="#0aff8a" stroke-width="0.5" opacity="0.3"/>
+
+    <!-- Side details / ejection port -->
+    <rect x="50" y="-6" width="18" height="10" rx="1" fill="#074a2b" opacity="0.6"/>
+    <!-- Charging handle -->
+    <rect x="55" y="-10" width="8" height="4" rx="1" fill="#085a34"/>
+  </g>
+
+  <!-- DZ badge -->
+  <g transform="translate(110, 170)">
+    <rect x="-28" y="-16" width="56" height="32" rx="6" fill="#e63232" opacity="0.9" filter="url(#shadow)"/>
+    <text x="0" y="6" text-anchor="middle" font-family="Arial, Helvetica, sans-serif" font-weight="bold" font-size="22" fill="#fff" letter-spacing="1">DZ</text>
+  </g>
+
+  <!-- Outer ring decoration -->
+  <circle cx="256" cy="256" r="238" fill="none" stroke="#e63232" stroke-width="5" opacity="0.8"/>
+  <circle cx="256" cy="256" r="230" fill="none" stroke="#e63232" stroke-width="1" opacity="0.15"/>
+</svg>
