@@ -1,6 +1,6 @@
 {
   "name": "warzone-deadzone-calculator",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Desktop app for calculating optimal deadzone settings for Call of Duty: Warzone",
   "main": "dist-electron/main.js",
   "scripts": {
